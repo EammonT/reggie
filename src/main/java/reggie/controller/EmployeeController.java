@@ -12,7 +12,6 @@ import reggie.entity.Employee;
 import reggie.service.EmployeeService;
 
 import javax.servlet.http.HttpServletRequest;
-import java.time.LocalDateTime;
 
 @Slf4j
 @RestController
@@ -69,11 +68,11 @@ public class EmployeeController {
     public R<String> save(@RequestBody Employee employee,HttpServletRequest request){
         //设置初始密码
         employee.setPassword(DigestUtils.md5DigestAsHex("123456".getBytes()));
-        employee.setCreateTime(LocalDateTime.now());
-        employee.setUpdateTime(LocalDateTime.now());
+//        employee.setCreateTime(LocalDateTime.now());
+//        employee.setUpdateTime(LocalDateTime.now());
         Long empId = (Long) request.getSession().getAttribute("employee");
-        employee.setUpdateUser(empId);
-        employee.setCreateUser(empId);
+//        employee.setUpdateUser(empId);
+//        employee.setCreateUser(empId);
         employeeService.save(employee);
         return R.success("新增成功！");
     }
@@ -102,8 +101,8 @@ public class EmployeeController {
     @PutMapping
     public R<String> update(HttpServletRequest request,@RequestBody Employee employee){
         Long empId = (Long) request.getSession().getAttribute("employee");
-        employee.setUpdateTime(LocalDateTime.now());
-        employee.setUpdateUser(empId);
+        //employee.setUpdateTime(LocalDateTime.now());
+        //employee.setUpdateUser(empId);
         employeeService.updateById(employee);
         return R.success("员工信息修改成功！");
     }
