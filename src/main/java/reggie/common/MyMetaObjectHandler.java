@@ -17,13 +17,15 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
     public void insertFill(MetaObject metaObject) {
         metaObject.setValue("createTime", LocalDateTime.now());
         metaObject.setValue("updateTime",LocalDateTime.now());
-        metaObject.setValue("createUser",new Long(1));
-        metaObject.setValue("updateUser",new Long(1));
+        Long currentId = BaseContext.getCurrentId();
+        metaObject.setValue("createUser",currentId);
+        metaObject.setValue("updateUser",currentId);
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
         metaObject.setValue("updateTime",LocalDateTime.now());
-        metaObject.setValue("updateUser",new Long(1));
+        Long currentId = BaseContext.getCurrentId();
+        metaObject.setValue("updateUser",currentId);
     }
 }
