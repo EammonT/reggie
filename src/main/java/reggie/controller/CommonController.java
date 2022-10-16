@@ -28,22 +28,23 @@ public class CommonController {
     @PostMapping("/upload")
     public R<String> upload(MultipartFile file) {
         //原始文件名
-        String filename = file.getOriginalFilename();
-        String filenameSuffix = filename.substring(filename.lastIndexOf("."));
+        String filenameOriginal = file.getOriginalFilename();
+        String filenameSuffix = filenameOriginal.substring(filenameOriginal.lastIndexOf("."));
         //使用UUID重新生成文件名，防止文件名重复导致覆盖
         String s = UUID.randomUUID().toString();
         //创建目录对象
         File dir = new File(basePath);
+        String filename = s + filenameSuffix;
         if (!dir.exists()){
             //目录不存在，需要创建
             dir.mkdirs();
         }
         try {
-            file.transferTo(new File(basePath + s + filenameSuffix));
+            file.transferTo(new File(basePath + filename));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return null;
+        return R.success(filename);
     }
 
     /**
@@ -56,6 +57,7 @@ public class CommonController {
         try {
             FileInputStream fileInputStream = new FileInputStream(new File(basePath + name));
             ServletOutputStream outputStream = response.getOutputStream();
+            response.setContentType("image/jpeg");
             byte[] bytes = new byte[1024];
             int len = 0;
             while ((len = fileInputStream.read(bytes)) != -1){
