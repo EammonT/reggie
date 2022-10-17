@@ -5,10 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reggie.common.R;
 import reggie.dto.SetmealDto;
 import reggie.entity.Category;
@@ -60,5 +57,11 @@ public class SetmealController {
             return setmealDto;
         }).collect(Collectors.toList());
         return R.success(setmealDtoPage);
+    }
+
+    @DeleteMapping
+    public R<String> delete(@RequestParam List<Long> ids){
+        setmealService.removeWithDish(ids);
+        return R.success("套餐删除成功");
     }
 }
